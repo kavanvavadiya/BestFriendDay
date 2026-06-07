@@ -52,14 +52,17 @@ export default function MemoryLane({ onContinue }: { onContinue: () => void }) {
   const [animating, setAnimating] = useState(false);
   const [liked, setLiked] = useState<Set<number>>(new Set());
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      if (current < MEMORIES.length - 1) {
-        goNext();
+useEffect(() => {
+  const timer = setInterval(() => {
+    setCurrent(prev => {
+      if (prev < MEMORIES.length - 1) {
+        return prev + 1;
       }
-    }, 6000);
-    return () => clearInterval(timer);
-  }, [current]);
+      return prev;
+    });
+  }, 6000);
+  return () => clearInterval(timer);
+}, []);
 
   const goNext = () => {
     if (current < MEMORIES.length - 1 && !animating) {
@@ -86,8 +89,12 @@ export default function MemoryLane({ onContinue }: { onContinue: () => void }) {
   const toggleLike = (id: number) => {
     setLiked(prev => {
       const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+        if (navigator.vibrate) navigator.vibrate(30);
+      }
       return next;
     });
   };
@@ -125,12 +132,24 @@ export default function MemoryLane({ onContinue }: { onContinue: () => void }) {
             />
           ))}
         </div>
+        <p className="text-xs text-rose-400/60 mt-6">
+          Memory {current + 1} of {MEMORIES.length}
+        </p>
       </div>
 
       {/* Main card */}
       <div className="px-4 md:px-8 max-w-3xl mx-auto mt-6">
-        <div className={`transition-all duration-300 ${animating ? 'opacity-0' : 'opacity-100'}`}>
-          <div className="bg-white/70 backdrop-blur-sm rounded-3xl overflow-hidden shadow-xl border border-rose-100/30">
+        <div
+          className={`transition-all duration-500 ease-out transform ${
+            animating
+              ? direction === 'right'
+                ? 'opacity-0 translate-x-8 scale-95'
+                : 'opacity-0 -translate-x-8 scale-95'
+              : 'opacity-100 translate-x-0 scale-100'
+          }`}
+        >
+          <div className="bg-white/70 backdrop-blur-sm rounded-3xl overflow-hidden shadow-xl border border-rose-100/30 hover:shadow-2xl transition-shadow duration-500">
+
             {/* Image */}
             <div className="relative aspect-[4/3] overflow-hidden">
               <img
@@ -138,23 +157,31 @@ export default function MemoryLane({ onContinue }: { onContinue: () => void }) {
                 alt={memory.title}
                 className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+
+              {/* softer cinematic overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
 
               {/* Like button */}
               <button
                 onClick={() => toggleLike(memory.id)}
-                className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center transition-all hover:scale-110 active:scale-95"
+                className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center transition-all hover:scale-110 active:scale-95"
               >
                 <Heart
                   size={20}
-                  className={liked.has(memory.id) ? 'text-rose-500' : 'text-white'}
+                  className={
+                    liked.has(memory.id)
+                      ? 'text-rose-500'
+                      : 'text-white/90'
+                  }
                   fill={liked.has(memory.id) ? 'currentColor' : 'none'}
                 />
               </button>
 
               {/* Date badge */}
-              <div className="absolute bottom-4 left-4 px-4 py-1.5 bg-white/30 backdrop-blur-sm rounded-full">
-                <span className="text-white text-sm font-medium">{memory.date}</span>
+              <div className="absolute bottom-4 left-4 px-4 py-1.5 bg-black/30 backdrop-blur-md rounded-full">
+                <span className="text-white text-xs font-medium tracking-wide">
+                  {memory.date}
+                </span>
               </div>
             </div>
 
@@ -163,7 +190,8 @@ export default function MemoryLane({ onContinue }: { onContinue: () => void }) {
               <h3 className="font-display text-2xl font-bold text-gray-800 mb-3">
                 {memory.title}
               </h3>
-              <p className="text-gray-600 leading-relaxed">
+
+              <p className="text-gray-600 leading-relaxed text-[15px]">
                 {memory.message}
               </p>
             </div>
@@ -172,37 +200,45 @@ export default function MemoryLane({ onContinue }: { onContinue: () => void }) {
 
         {/* Navigation */}
         <div className="flex justify-between items-center mt-6 mb-8">
+
+          {/* Previous */}
           <button
             onClick={goPrev}
             disabled={current === 0}
             className={`flex items-center gap-2 px-5 py-3 rounded-full transition-all duration-300 ${
               current === 0
                 ? 'opacity-30 cursor-not-allowed'
-                : 'bg-white/60 hover:bg-white/80 shadow-md hover:shadow-lg active:scale-95'
+                : 'bg-white/50 hover:bg-white/80 shadow-sm hover:shadow-md active:scale-95'
             }`}
           >
             <ChevronLeft size={18} />
-            <span className="text-sm font-medium text-gray-700">Previous</span>
+            <span className="text-sm font-medium text-gray-700">
+              Previous memory
+            </span>
           </button>
 
+          {/* Next / Final */}
           {isLast ? (
             <button
               onClick={onContinue}
               className="group flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-400 to-rose-400 text-white rounded-full font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
             >
               <Puzzle size={18} />
-              Solve the Puzzle
+              The Final Step
               <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
             </button>
           ) : (
             <button
               onClick={goNext}
-              className="flex items-center gap-2 px-5 py-3 bg-white/60 hover:bg-white/80 rounded-full shadow-md hover:shadow-lg transition-all duration-300 active:scale-95"
+              className="flex items-center gap-2 px-5 py-3 bg-white/50 hover:bg-white/80 rounded-full shadow-sm hover:shadow-md transition-all duration-300 active:scale-95"
             >
-              <span className="text-sm font-medium text-gray-700">Next</span>
+              <span className="text-sm font-medium text-gray-700">
+                Next memory
+              </span>
               <ChevronRight size={18} />
             </button>
           )}
+
         </div>
       </div>
     </div>

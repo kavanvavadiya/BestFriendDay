@@ -1,37 +1,35 @@
 import { useState, useEffect } from 'react';
 import { Lock, Heart, Sparkles, Calculator } from 'lucide-react';
 
-// Password = 240812 (Kavan 24 Aug + Aishwarya 12 Dec)
-const PASSWORD = '240812';
+const PASSWORD = '300723';
 
 const HINTS = [
   {
     level: 0,
     icon: Calculator,
-    title: 'The Formula',
+    title: "A Tiny Clue ✨",
     lines: [
-      'This code is made from two special dates',
-      'The day Kavan was born + The day Aishwarya was born',
+      "This isn’t random or guessed.",
+      "It comes from a very specific moment in time.",
+      "Not a birthday — something that actually *started us*.",
     ],
   },
   {
     level: 1,
-    title: 'A Little Closer',
+    title: "Getting Warmer 🌙",
     lines: [
-      'Kavan: 24 Aug 2003 — take DDMM = 2408',
-      'Aishwarya: 12 Dec 2000 — take DDMM = 1212',
-      'Now combine the first half of one + second half of the other...',
+      "Think about the first time we really met / connected.",
+      "Not when we knew of each other… but when it began.",
+      "That day matters more than you think.",
     ],
   },
   {
     level: 2,
-    title: 'Almost There!',
+    title: "Almost There 💫",
     lines: [
-      'Take Kavan\'s day & month: 24 08',
-      'Take Aishwarya\'s day & month: 12 12',
-      'First 3 digits from Kavan: 240',
-      'Last 3 digits from Aishwarya: 812',
-      'Password = 240 + 812',
+      "You’re close, but the clue isn’t fully inside this game.",
+      "Sometimes answers live where things were made 👀",
+      "https://gaurisakhalkar.netlify.app/",
     ],
   },
 ];
@@ -66,7 +64,7 @@ export default function PasswordGate({ onAccess }: { onAccess: () => void }) {
       setTimeout(() => {
         setShake(false);
         setError(false);
-      }, 600);
+      }, 1000);
     }
   };
 
@@ -116,14 +114,14 @@ export default function PasswordGate({ onAccess }: { onAccess: () => void }) {
 
         {/* Title */}
         <h1 className="font-display text-4xl md:text-5xl font-bold text-white mb-3 animate-fade-in-up delay-100" style={{ animationFillMode: 'both' }}>
-          A Special Place
+          Bestie Vault ✨
         </h1>
         <p className="text-rose-200/70 text-lg mb-2 animate-fade-in-up delay-200" style={{ animationFillMode: 'both' }}>
-          Only for someone extraordinary
+          Access granted only to cute little kido
         </p>
         <p className="text-amber-200/50 text-sm mb-4 animate-fade-in-up delay-300" style={{ animationFillMode: 'both' }}>
           <Sparkles size={14} className="inline mr-1" />
-          Aishwarya, this is for you
+          Aishu, this is for you
           <Sparkles size={14} className="inline ml-1" />
         </p>
 
@@ -132,7 +130,7 @@ export default function PasswordGate({ onAccess }: { onAccess: () => void }) {
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-500/10 border border-amber-500/20 rounded-full">
             <Calculator size={14} className="text-amber-400" />
             <span className="text-amber-300/80 text-xs tracking-wide">
-              6 digits hidden in your birthdays
+              The day a friendship began ✨
             </span>
           </div>
         </div>
@@ -155,7 +153,12 @@ export default function PasswordGate({ onAccess }: { onAccess: () => void }) {
 
         {error && (
           <p className="text-red-300 text-sm mb-4 animate-fade-in">
-            Not quite... try again!
+            {/* {ROASTS[Math.min(attempts - 1, ROASTS.length - 1)]} */}
+            {attempts === 1 && "Wrong 😭 I believed in you for a second"}
+            {attempts === 2 && "Okay this is getting embarrassing"}
+            {attempts === 3 && "Do you want a hint or emotional support?"}
+            {attempts === 4 && "I’m judging you silently right now"}
+            {attempts >= 5 && "I think you're doing this on purpose 💀"}
           </p>
         )}
 
@@ -167,7 +170,7 @@ export default function PasswordGate({ onAccess }: { onAccess: () => void }) {
                 key={d}
                 type="button"
                 onClick={() => handleDigitClick(d)}
-                className="w-16 h-16 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/10 hover:border-rose-400/30 text-white text-xl font-medium transition-all duration-200 active:scale-95 flex items-center justify-center mx-auto"
+                className="w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 hover:bg-white/20 hover:border-violet-400/40 text-white text-xl font-medium transition-all duration-200 active:scale-90 flex items-center justify-center mx-auto"
               >
                 {d}
               </button>
@@ -177,22 +180,23 @@ export default function PasswordGate({ onAccess }: { onAccess: () => void }) {
             <button
               type="button"
               onClick={handleBackspace}
-              className="w-16 h-16 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/50 text-sm transition-all duration-200 active:scale-95"
+              className="w-16 h-16 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 hover:bg-white/10 text-white/60 transition-all duration-200 active:scale-90"
             >
               ←
             </button>
             <button
               type="button"
               onClick={() => handleDigitClick('0')}
-              className="w-16 h-16 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/10 hover:border-rose-400/30 text-white text-xl font-medium transition-all duration-200 active:scale-95"
+              className="w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 hover:bg-white/20 hover:border-violet-400/40 text-white text-xl font-medium transition-all duration-200 active:scale-90 flex items-center justify-center mx-auto"
             >
               0
             </button>
             <button
               type="submit"
-              className="w-16 h-16 rounded-2xl bg-gradient-to-br from-rose-500 to-amber-500 hover:from-rose-400 hover:to-amber-400 text-white transition-all duration-200 active:scale-95 shadow-lg shadow-rose-500/20"
+              className="w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-500 via-fuchsia-500 to-pink-500 text-white transition-all duration-200 active:scale-95 shadow-lg shadow-violet-500/20"
             >
-              <Heart size={20} fill="currentColor" className="mx-auto" />
+              <Sparkles size={20} className="mx-auto animate-pulse" />
+              {/* <Heart size={20} fill="currentColor" className="mx-auto" /> */}
             </button>
           </div>
         </form>
@@ -202,64 +206,80 @@ export default function PasswordGate({ onAccess }: { onAccess: () => void }) {
           {hintLevel < 0 ? (
             <button
               onClick={() => setHintLevel(0)}
-              className="text-white/30 text-xs hover:text-white/50 transition-colors underline underline-offset-4 inline-flex items-center gap-1"
+              className="text-white/30 text-xs hover:text-white/60 transition-colors underline underline-offset-4 inline-flex items-center gap-1"
             >
               <Calculator size={12} />
-              Need a hint? Decode the birthdays
+              Okay fine… I need help 😭
             </button>
           ) : (
             <div className="animate-fade-in">
               <div className="glass rounded-2xl p-5 text-left space-y-3">
+
                 {/* Hint header */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div className="w-6 h-6 rounded-full bg-amber-400/20 flex items-center justify-center">
-                      <Calculator size={12} className="text-amber-400" />
+                      <Calculator size={12} className="text-amber-300" />
                     </div>
+
                     <span className="text-amber-300 text-xs font-semibold tracking-wider uppercase">
                       Hint Level {Math.min(hintLevel + 1, HINTS.length)} / {HINTS.length}
                     </span>
                   </div>
+
                   <button
                     onClick={() => setShowCalculator(!showCalculator)}
-                    className="text-white/30 hover:text-white/50 text-xs transition-colors"
+                    className="text-white/30 hover:text-white/60 text-xs transition-colors"
                   >
-                    {showCalculator ? 'Hide' : 'Show'} Calculator
+                    {showCalculator ? "Hide" : "Show"} gentle help
                   </button>
                 </div>
 
-                {/* Progress dots */}
+                {/* Progress */}
                 <div className="flex gap-1.5">
                   {HINTS.map((_, i) => (
                     <div
                       key={i}
                       className={`h-1 flex-1 rounded-full transition-all ${
-                        i <= hintLevel ? 'bg-amber-400/60' : 'bg-white/10'
+                        i <= hintLevel
+                          ? "bg-amber-400/60"
+                          : "bg-white/10"
                       }`}
                     />
                   ))}
                 </div>
 
-                {/* Mini calculator */}
+                {/* Mini helper panel */}
                 {showCalculator && (
-                  <div className="bg-black/30 rounded-xl p-3 space-y-2 animate-fade-in">
-                    <div className="grid grid-cols-2 gap-2 text-xs">
-                      <div className="bg-rose-500/10 border border-rose-500/20 rounded-lg p-2">
-                        <p className="text-rose-300/60 mb-0.5">Kavan</p>
-                        <p className="text-rose-300 font-mono">24 Aug 2003</p>
-                        <p className="text-rose-400 font-mono font-bold mt-1">DDMM = 2408</p>
-                      </div>
-                      <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-2">
-                        <p className="text-amber-300/60 mb-0.5">Aishwarya</p>
-                        <p className="text-amber-300 font-mono">12 Dec 2000</p>
-                        <p className="text-amber-400 font-mono font-bold mt-1">DDMM = 1212</p>
-                      </div>
+                  <div className="bg-black/30 rounded-xl p-3 space-y-3 animate-fade-in">
+
+                    <div className="text-center text-xs text-white/40">
+                      I promise this is simpler than it looks 😌
                     </div>
-                    <div className="bg-white/5 rounded-lg p-2 text-center">
-                      <p className="text-white/40 text-[10px] mb-1">COMBINATION</p>
-                      <p className="text-white/70 font-mono text-sm">
-                        240 + 812 = ?
+
+                    <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-3 text-center">
+                      <p className="text-amber-300/60 text-xs mb-1">
+                        Think about this moment
                       </p>
+                      <p className="text-amber-300 font-mono font-bold">
+                        the day it all started
+                      </p>
+                    </div>
+
+                    <div className="bg-white/5 rounded-lg p-3 text-center space-y-1">
+                      <p className="text-white/40 text-[10px]">
+                        HOW TO SOLVE THIS
+                      </p>
+                      <p className="text-white/70 text-xs">
+                        find the date → remove symbols → just numbers
+                      </p>
+                      <p className="text-white/50 text-[10px]">
+                        I swear it's not tricking you (much)
+                      </p>
+                    </div>
+
+                    <div className="text-center text-[10px] text-white/30">
+                      I’m helping… emotionally 😌
                     </div>
                   </div>
                 )}
@@ -267,8 +287,19 @@ export default function PasswordGate({ onAccess }: { onAccess: () => void }) {
                 {/* Hint lines */}
                 <div className="space-y-1.5">
                   {currentHint?.lines.map((line, i) => (
-                    <p key={i} className="text-rose-200/60 text-xs leading-relaxed">
-                      {line}
+                    <p key={i} className="text-amber-200/60 text-xs leading-relaxed">
+                      {line.startsWith("http") ? (
+                        <a
+                          href={line}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="underline text-amber-300 hover:text-amber-200 break-all"
+                        >
+                          {line}
+                        </a>
+                      ) : (
+                        line
+                      )}
                     </p>
                   ))}
                 </div>
@@ -277,11 +308,12 @@ export default function PasswordGate({ onAccess }: { onAccess: () => void }) {
                 {hintLevel < HINTS.length - 1 && (
                   <button
                     onClick={() => setHintLevel(prev => prev + 1)}
-                    className="w-full py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white/40 hover:text-white/60 text-xs transition-all"
+                    className="w-full py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white/40 hover:text-white/70 text-xs transition-all"
                   >
-                    Still stuck? Reveal more
+                    I’m still stuck (please be nicer to me 😭)
                   </button>
                 )}
+
               </div>
             </div>
           )}

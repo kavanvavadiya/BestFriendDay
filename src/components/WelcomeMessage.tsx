@@ -69,7 +69,7 @@ export default function WelcomeMessage({ onContinue }: { onContinue: () => void 
         <div className={`transition-all duration-1000 ${phase >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
           <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 shadow-lg border border-rose-100/50 mb-8">
             <p className="text-gray-700 text-lg leading-relaxed mb-4">
-              You are not just my best friend — you are the person who makes every day brighter,
+              You are not just my best friend, you are the person who makes every day brighter,
               every laugh louder, and every memory more beautiful.
             </p>
             <p className="text-gray-700 text-lg leading-relaxed mb-4">
