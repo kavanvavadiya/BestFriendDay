@@ -40,14 +40,14 @@ const MEMORIES = [
     id: 5,
     image: image5,
     title: 'Mood Indigo night',
-    message: 'A night full of music, energy, and everything feeling bigger than life — one of those moments that just stays with you.',
+    message: 'A night full of music, energy, and everything feeling bigger than life, one of those moments that just stays with you.',
     date: 'IIT Bombay',
   },
   {
     id: 6,
     image: image6,
     title: 'Still here',
-    message: 'Some moments don\'t need words — they just stay, quietly, like this one will.',
+    message: 'Some moments don\'t need words, they just stay, quietly, like this one will.',
     date: 'Forever memory',
   }
 ];

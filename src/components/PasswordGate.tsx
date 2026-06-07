@@ -11,7 +11,7 @@ const HINTS = [
     lines: [
       "This isn’t random or guessed.",
       "It comes from a very specific moment in time.",
-      "Not a birthday — something that actually *started us*.",
+      "Not a birthday, something that actually *started us*.",
     ],
   },
   {
@@ -64,7 +64,7 @@ export default function PasswordGate({ onAccess }: { onAccess: () => void }) {
       setTimeout(() => {
         setShake(false);
         setError(false);
-      }, 1000);
+      }, 3000);
     }
   };
 
