@@ -55,12 +55,20 @@ export default function PasswordGate({ onAccess }: { onAccess: () => void }) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Don't submit if input is not complete (less than 6 digits)
+    if (input.length < 6) {
+      return;
+    }
+    
     if (input === PASSWORD) {
+      setInput(''); // Clear input on success
       onAccess();
     } else {
       setError(true);
       setShake(true);
       setAttempts(prev => prev + 1);
+      setInput(''); // Clear input on wrong password
       setTimeout(() => {
         setShake(false);
         setError(false);
@@ -193,9 +201,14 @@ export default function PasswordGate({ onAccess }: { onAccess: () => void }) {
             </button>
             <button
               type="submit"
-              className="w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-500 via-fuchsia-500 to-pink-500 text-white transition-all duration-200 active:scale-95 shadow-lg shadow-violet-500/20"
+              disabled={input.length < 6}
+              className={`w-16 h-16 rounded-2xl text-white transition-all duration-200 shadow-lg ${
+                input.length < 6
+                  ? 'bg-gray-500/30 cursor-not-allowed opacity-50 shadow-gray-500/10'
+                  : 'bg-gradient-to-br from-violet-500 via-fuchsia-500 to-pink-500 active:scale-95 shadow-violet-500/20 hover:shadow-violet-500/30'
+              }`}
             >
-              <Sparkles size={20} className="mx-auto animate-pulse" />
+              <Sparkles size={20} className={`mx-auto ${input.length < 6 ? '' : 'animate-pulse'}`} />
               {/* <Heart size={20} fill="currentColor" className="mx-auto" /> */}
             </button>
           </div>
