@@ -50,23 +50,43 @@ export default function BackgroundMusic({ audioSrc, autoPlay = true }: Backgroun
   }, [autoPlay]);
 
   useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = isMuted ? 0 : volume;
+    const audio = audioRef.current;
+    if (audio) {
+      // Set both muted property and volume for better mobile support
+      audio.muted = isMuted;
+      audio.volume = isMuted ? 0 : volume;
     }
   }, [volume, isMuted]);
 
   const togglePlay = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play();
-      }
+    const audio = audioRef.current;
+    if (!audio) return;
+    
+    if (isPlaying) {
+      audio.pause();
+    } else {
+      // For mobile, ensure audio is ready before playing
+      audio.play().catch((error) => {
+        console.log('Playback failed:', error);
+        setIsPlaying(false);
+      });
     }
   };
 
   const toggleMute = () => {
-    setIsMuted(!isMuted);
+    const audio = audioRef.current;
+    if (!audio) return;
+    
+    const newMutedState = !isMuted;
+    setIsMuted(newMutedState);
+    
+    // Directly set audio properties for mobile compatibility
+    audio.muted = newMutedState;
+    if (newMutedState) {
+      audio.volume = 0;
+    } else {
+      audio.volume = volume;
+    }
   };
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -129,6 +149,10 @@ export default function BackgroundMusic({ audioSrc, autoPlay = true }: Backgroun
             {/* Mute/Unmute button */}
             <button
               onClick={toggleMute}
+              onTouchEnd={(e) => {
+                e.preventDefault();
+                toggleMute();
+              }}
               className="w-14 h-14 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 active:scale-95 hover:bg-white/20"
               aria-label={isMuted ? 'Unmute' : 'Mute'}
             >
