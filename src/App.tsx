@@ -5,7 +5,7 @@ import MemoryLane from './components/MemoryLane';
 import PhotoPuzzle from './components/PhotoPuzzle';
 import Celebration from './components/Celebration';
 import BackgroundMusic from './components/BackgroundMusic';
-// import backgroundMusic from './assets/background.mp3';
+import backgroundMusic from './assets/background.mp3';
 
 type Stage = 'gate' | 'welcome' | 'memories' | 'puzzle' | 'celebration';
 
