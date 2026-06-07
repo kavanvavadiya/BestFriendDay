@@ -63,7 +63,7 @@ export default function WelcomeMessage({ onContinue }: { onContinue: () => void 
           <h1 className="font-display text-5xl md:text-7xl font-bold mb-2 animate-shimmer">
             Aishwarya
           </h1>
-          <p className="font-display text-2xl md:text-3xl text-amber-600/80 italic mb-6">Shakhalkar</p>
+          <p className="font-display text-2xl md:text-3xl text-amber-600/80 italic mb-6">Sakhalkar</p>
         </div>
 
         <div className={`transition-all duration-1000 ${phase >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
