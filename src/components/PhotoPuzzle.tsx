@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { Puzzle, RotateCcw, CheckCircle, ArrowRight } from 'lucide-react';
-import refImage from '../assets/ref.png';
+import refImage from '../assets/puzzle.jpg';
 
 const GRID_SIZE = 3;
 const TOTAL = GRID_SIZE * GRID_SIZE;
@@ -124,7 +124,7 @@ export default function PhotoPuzzle({ onComplete }: { onComplete: () => void }) 
       <div className="mb-6">
         <p className="text-gray-400 text-xs mb-2 text-center">Reference:</p>
         <div className="w-24 h-24 rounded-xl overflow-hidden border-2 border-white/60 shadow-md mx-auto">
-          <img src={IMAGE_URL} alt="Reference" className="w-full h-full object-cover" />
+          <img src={IMAGE_URL} alt="Reference" className="w-full h-full object-contain" />
         </div>
       </div>
 

@@ -1,49 +1,55 @@
 import { useState, useEffect } from 'react';
 import { Heart, ChevronLeft, ChevronRight, Puzzle, ArrowRight } from 'lucide-react';
+import image1 from '../assets/1.jpg';
+import image2 from '../assets/2.jpg';
+import image3 from '../assets/3.jpg';
+import image4 from '../assets/4.jpg';
+import image5 from '../assets/5.jpg';
+import image6 from '../assets/6.jpg';
 
 const MEMORIES = [
   {
     id: 1,
-    image: 'https://images.pexels.com/photos/1024960/pexels-photo-1024960.jpeg?auto=compress&cs=tinysrgb&w=800',
-    title: 'The Beginning',
-    message: 'Every great friendship has a beginning, and ours started with a spark that only grew brighter with time.',
-    date: 'Where it all started',
+    image: image1,
+    title: 'Cuteness overload',
+    message: 'If cuteness had a face, I think it would look like this moment.',
+    date: 'A moment worth saving',
   },
   {
     id: 2,
-    image: 'https://images.pexels.com/photos/3014856/pexels-photo-3014856.jpeg?auto=compress&cs=tinysrgb&w=800',
-    title: 'Adventures Together',
-    message: 'From silly adventures to deep conversations — every moment with you is an adventure I cherish.',
-    date: 'Making memories',
+    image: image2,
+    title: 'Just us being happy',
+    message: 'Some moments don\'t need anything special… just you, me, and that effortless happiness.',
+    date: 'Pure happiness',
   },
   {
     id: 3,
-    image: 'https://images.pexels.com/photos/4587665/pexels-photo-4587665.jpeg?auto=compress&cs=tinysrgb&w=800',
-    title: 'Laughter & Joy',
-    message: 'Your laughter is contagious and your joy is infectious. You make the world a happier place just by being you.',
-    date: 'The best laughs',
+    image: image3,
+    title: 'Wallpaper energy',
+    message: 'It just had that kind of vibe… like something worth saving, even without a reason.',
+    date: 'Screen-worthy',
   },
   {
     id: 4,
-    image: 'https://images.pexels.com/photos/1114690/pexels-photo-1114690.jpeg?auto=compress&cs=tinysrgb&w=800',
-    title: 'Through It All',
-    message: 'Rain or shine, good days and tough ones — having you by my side makes everything better.',
-    date: 'Always together',
+    image: image4,
+    title: 'Our usual stop',
+    message: 'Every time we met, it somehow ended up the same way, sitting together, talking about everything and nothing.',
+    date: 'Our little ritual',
   },
   {
     id: 5,
-    image: 'https://images.pexels.com/photos/1679315/pexels-photo-1679315.jpeg?auto=compress&cs=tinysrgb&w=800',
-    title: 'Our Bond',
-    message: 'Some friendships are so deep they become family. That is what you are to me — chosen family.',
-    date: 'Unbreakable bond',
+    image: image5,
+    title: 'Mood Indigo night',
+    message: 'A night full of music, energy, and everything feeling bigger than life — one of those moments that just stays with you.',
+    date: 'IIT Bombay',
   },
   {
     id: 6,
-    image: 'https://images.pexels.com/photos/2253870/pexels-photo-2253870.jpeg?auto=compress&cs=tinysrgb&w=800',
-    title: 'Here\'s To Us',
-    message: 'To the countless memories we have made and the infinite ones yet to come. Happy Best Friend Day, Aishwarya!',
-    date: 'Forever & always',
-  },
+    image: image6,
+    title: 'Still here',
+    message: 'Some moments don\'t need words — they just stay, quietly, like this one will.',
+    date: 'Forever memory',
+  }
 ];
 
 export default function MemoryLane({ onContinue }: { onContinue: () => void }) {
@@ -62,7 +68,7 @@ useEffect(() => {
     });
   }, 6000);
   return () => clearInterval(timer);
-}, []);
+}, [current]);
 
   const goNext = () => {
     if (current < MEMORIES.length - 1 && !animating) {
@@ -155,7 +161,7 @@ useEffect(() => {
               <img
                 src={memory.image}
                 alt={memory.title}
-                className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                className="w-full h-full object-contain transition-transform duration-700 hover:scale-105"
               />
 
               {/* softer cinematic overlay */}
